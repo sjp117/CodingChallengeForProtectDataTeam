@@ -2,16 +2,8 @@ library(bsrc)
 library(dplyr)
 library(lubridate)
 
-hamMaxScore <- 76
-
-visitOrder <- c()
-
 # load data
 load("Data and Samples/Question 1 - Data/Data.RData")
-# ids <- read.table("Data and Samples/Question 1 - Data/IDs.txt", col.names = "id")
-
-table(HAM$masterdemoid)
-
 
 df <- bsrc.findid(df = HAM, id.var = "masterdemoid", idmap = idmap)
 
@@ -69,4 +61,6 @@ df3 <- merge(df2, ham_mean, by = "masterdemoid")
 # reorder columns to have ids at the start, calculated scores, then scores for each items
 # excluded the ifexist column
 final_df <- df3 %>%
-    select(masterdemoid, wpicid, ogid, ham_score, ham_mean, everything(), -ifexist)
+    select(masterdemoid, wpicid, ogid, VisitTimePoint, ham_date, ham_score, ham_mean, everything(), -ifexist)
+
+saveRDS(final_df, file = "output/final_df.rds")
