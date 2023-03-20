@@ -25,13 +25,14 @@ df$ham_score = df %>%
 # identify the repeated masterdemoid column
 which(colnames(df) == "masterdemoid")
 
-# exclude the redundent masterdemoid column
+# exclude the redundant masterdemoid column
 df[45] <- NULL
 
+# OPTIONAL
 # relabel row names as unique numbers
 rownames(df) <- 1:nrow(df)
 
-# filter data that has a ham_date value
+# exclude rows without a ham_date value
 # filter out rows where ifexist value is False
 # exclude columns for bprsx and soloffid
 # exclude ham_3 sub-items
@@ -41,7 +42,7 @@ df2 <- df %>%
     select(-starts_with("bprsx_"), -soloffid) %>%
     select(-contains(c("_3a_", "_3b_", "_3c_", "_3d_", "_3e_")))
 
-# convert ham_date to lubridate format
+# convert ham_date to POSIX date format
 df2$ham_date <- ymd(df2$ham_date)
 
 # get mean score for each masterdemoid
